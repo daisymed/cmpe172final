@@ -35,4 +35,29 @@ angular.module('todoController', [])
 			}
 		};
 
+		// UPDATE ===================
+		// when checking an item set the boolean to true in the node API
+		$scope.updateTodo = function(index) {
+			$scope.loading = true;
+			alert("index = " + index + ", done = " + $scope.todos[index].done);
+			Todos.update($scope.todos[index])
+				.success(function(data) {
+					$scope.loading = false;
+					$scope.todos = data;
+				});
+		};
+
+
+	// deletes a todo after checking it
+    $scope.deleteTodo = function(id) {
+        $http.delete('/api/todos/' + id)
+            .success(function(data) {
+                $scope.todos = data;
+                console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
 	}]);
